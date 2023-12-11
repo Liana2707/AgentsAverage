@@ -1,9 +1,13 @@
+import asyncio
+import threading
+
 import spade
 
 from SimpleAgent import SimpleAgent
 
 
 async def main():
+
     agents = [SimpleAgent(f'agent{i}@localhost', "123") for i in range(10)]
     for i in range(10):
         await agents[i].start()

@@ -1,3 +1,4 @@
+import random
 from random import randint
 
 from spade.agent import Agent
@@ -9,6 +10,7 @@ from SimpleBehaviour import (
 )
 
 COUNT_AGENTS = 0
+
 connections = [
     [1, 2, 3, 7],
     [0, 6],
@@ -22,7 +24,6 @@ connections = [
     [8]
 ]
 
-
 class SimpleAgent(Agent):
     number_of_agents = 10
     finish = False
@@ -32,7 +33,9 @@ class SimpleAgent(Agent):
         self.id = COUNT_AGENTS
         COUNT_AGENTS += 1
         self.neighbours = connections[self.id]
-        self.number = randint(0, 100)
+        self.l = len(self.neighbours)
+        self.value = 10
+        self.number = self.value
         self.info = {jid: self.number}
 
         super().__init__(jid, password)
@@ -43,6 +46,31 @@ class SimpleAgent(Agent):
 
     def finished(self):
         return self.finish
+
+    def change_neighbours(self):
+        is_change = random.choice([True, False])
+        if is_change:
+            if self.id == 0:
+                if 2 in self.neighbours:
+                    self.neighbours.remove(2)
+                else:
+                    self.neighbours.append(2)
+            elif self.id == 1:
+                if 6 in self.neighbours:
+                    self.neighbours.remove(6)
+                else:
+                    self.neighbours.append(6)
+            elif self.id == 3:
+                if 7 in self.neighbours:
+                    self.neighbours.remove(7)
+                else:
+                    self.neighbours.append(7)
+            elif self.id == 8:
+                if 9 in self.neighbours:
+                    self.neighbours.remove(9)
+                else:
+                    self.neighbours.append(9)
+
 
     async def setup(self):
         behaviour = SimpleBehaviour()
